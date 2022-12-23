@@ -19,10 +19,16 @@ app.use('/images', express.static('./images'));
 // database connection
 
 
-mongoose.connect(process.env.DB_USER).then(() => {
-    console.log(`Database connection is Successfully`);
-})
-
+const dbConnect = () => {
+    try {
+        mongoose.connect('mongodb+srv://acc-redux-assignment:5CG8JhXbeSLgjYC4@cluster0.af4at.mongodb.net/ACC_Redux-Assignment?retryWrites=true&w=majority').then(() => {
+            console.log(`Database connection is Successfully`);
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+dbConnect()
 
 
 
@@ -94,7 +100,7 @@ app.patch('/product/:id', uploader.array("image"), async (req, res) => {
 
     const { title, description, price, oldFileName } = JSON.parse(req?.body?.product);
 
-    console.log(title, description, price, oldFileName );
+    console.log(title, description, price, oldFileName);
     const fileName = await req?.files[0]?.filename;
 
 
